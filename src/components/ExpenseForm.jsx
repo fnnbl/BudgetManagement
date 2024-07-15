@@ -5,23 +5,42 @@ const ExpenseForm = ({ addExpense }) => {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
-  const [frequency, setFrequency] = useState("");
+  const [paymentFrequency, setPaymentFrequency] = useState("Monatlich");
   const [remark, setRemark] = useState("");
+
+  // Funktion zur Berechnung der monatlichen Ausgaben
+  const calculateMonthlyExpenses = () => {
+    let monthlyAmount = parseFloat(amount);
+    switch (paymentFrequency) {
+      case "Vierteljährlich":
+        monthlyAmount /= 3; // Vierteljährlich -> monatlich
+        break;
+      case "Halbjährlich":
+        monthlyAmount /= 6; // Halbjährlich -> monatlich
+        break;
+      case "Jährlich":
+        monthlyAmount /= 12; // Jährlich -> monatlich
+        break;
+      default:
+        break;
+    }
+    return monthlyAmount;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (description && category && amount && frequency) {
+    if (description && category && amount && paymentFrequency) {
       addExpense({
         description,
         category,
         amount: parseFloat(amount),
-        frequency,
+        paymentFrequency,
         remark,
       });
       setDescription("");
       setCategory("");
       setAmount("");
-      setFrequency("");
+      setPaymentFrequency("Monatlich");
       setRemark("");
     }
   };
@@ -84,14 +103,11 @@ const ExpenseForm = ({ addExpense }) => {
       <div className="mb-4">
         <label className="block text-gray-700">Zahlweise</label>
         <select
-          value={frequency}
-          onChange={(e) => setFrequency(e.target.value)}
+          value={paymentFrequency}
+          onChange={(e) => setPaymentFrequency(e.target.value)}
           className="mt-1 p-2 w-full border rounded-md"
           required
         >
-          <option value="" disabled>
-            Wählen Sie eine Zahlweise
-          </option>
           <option value="Monatlich">Monatlich</option>
           <option value="Vierteljährlich">Vierteljährlich</option>
           <option value="Halbjährlich">Halbjährlich</option>
