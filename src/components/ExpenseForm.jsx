@@ -1,109 +1,118 @@
+// src/components/ExpenseForm.jsx
 import React, { useState } from "react";
-
-const categories = [
-  "Miete",
-  "Freizeit",
-  "Urlaub",
-  "Telefon/Internet",
-  "Privat",
-  "Studium",
-  "ÖPNV",
-  "Abonnements",
-  "Sport",
-  "Vermögensaufbau",
-  "Altersvorsorge",
-  "Vermögensabsicherung",
-  "Persönliche Absicherung",
-  "Lebenshaltung",
-  "Konsum",
-  "Kredite/Darlehen",
-  "Sonstige",
-];
-
-const paymentFrequencies = [
-  "Monatlich",
-  "Vierteljährlich",
-  "Halbjährlich",
-  "Jährlich",
-];
 
 const ExpenseForm = ({ addExpense }) => {
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState(categories[0]);
+  const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
-  const [paymentFrequency, setPaymentFrequency] = useState(
-    paymentFrequencies[0]
-  );
-  const [note, setNote] = useState("");
+  const [frequency, setFrequency] = useState("");
+  const [remark, setRemark] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addExpense({
-      description,
-      category,
-      amount: Number(amount),
-      paymentFrequency,
-      note,
-    });
-    setDescription("");
-    setCategory(categories[0]);
-    setAmount("");
-    setPaymentFrequency(paymentFrequencies[0]);
-    setNote("");
+    if (description && category && amount && frequency) {
+      addExpense({
+        description,
+        category,
+        amount: parseFloat(amount),
+        frequency,
+        remark,
+      });
+      setDescription("");
+      setCategory("");
+      setAmount("");
+      setFrequency("");
+      setRemark("");
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Beschreibung:
+    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
+      <h2 className="text-xl font-bold mb-4">Ausgabe hinzufügen</h2>
+      <div className="mb-4">
+        <label className="block text-gray-700">Beschreibung</label>
         <input
           type="text"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          className="mt-1 p-2 w-full border rounded-md"
           required
         />
-      </label>
-      <label>
-        Kategorie:
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          {categories.map((cat) => (
-            <option key={cat} value={cat}>
-              {cat}
-            </option>
-          ))}
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700">Kategorie</label>
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="mt-1 p-2 w-full border rounded-md"
+          required
+        >
+          <option value="" disabled>
+            Wählen Sie eine Kategorie
+          </option>
+          <option value="Miete">Miete</option>
+          <option value="Freizeit">Freizeit</option>
+          <option value="Urlaub">Urlaub</option>
+          <option value="Telefon/Internet">Telefon/Internet</option>
+          <option value="Privat">Privat</option>
+          <option value="Studium">Studium</option>
+          <option value="ÖPNV">ÖPNV</option>
+          <option value="Abonnements">Abonnements</option>
+          <option value="Sport">Sport</option>
+          <option value="Vermögensaufbau">Vermögensaufbau</option>
+          <option value="Altersvorsorge">Altersvorsorge</option>
+          <option value="Vermögensabsicherung">Vermögensabsicherung</option>
+          <option value="Persönliche Absicherung">
+            Persönliche Absicherung
+          </option>
+          <option value="Lebenshaltung">Lebenshaltung</option>
+          <option value="Konsum">Konsum</option>
+          <option value="Kredite/Darlehen">Kredite/Darlehen</option>
+          <option value="Sonstige">Sonstige</option>
         </select>
-      </label>
-      <label>
-        Betrag:
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700">Betrag</label>
         <input
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
+          className="mt-1 p-2 w-full border rounded-md"
           required
         />
-      </label>
-      <label>
-        Zahlweise:
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700">Zahlweise</label>
         <select
-          value={paymentFrequency}
-          onChange={(e) => setPaymentFrequency(e.target.value)}
+          value={frequency}
+          onChange={(e) => setFrequency(e.target.value)}
+          className="mt-1 p-2 w-full border rounded-md"
+          required
         >
-          {paymentFrequencies.map((freq) => (
-            <option key={freq} value={freq}>
-              {freq}
-            </option>
-          ))}
+          <option value="" disabled>
+            Wählen Sie eine Zahlweise
+          </option>
+          <option value="Monatlich">Monatlich</option>
+          <option value="Vierteljährlich">Vierteljährlich</option>
+          <option value="Halbjährlich">Halbjährlich</option>
+          <option value="Jährlich">Jährlich</option>
         </select>
-      </label>
-      <label>
-        Bemerkung:
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700">Bemerkung</label>
         <input
           type="text"
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
+          value={remark}
+          onChange={(e) => setRemark(e.target.value)}
+          className="mt-1 p-2 w-full border rounded-md"
         />
-      </label>
-      <button type="submit">Hinzufügen</button>
+      </div>
+      <button
+        type="submit"
+        className="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700"
+      >
+        Hinzufügen
+      </button>
     </form>
   );
 };

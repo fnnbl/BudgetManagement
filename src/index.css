@@ -1,4 +1,7 @@
-/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -30,14 +33,14 @@ button {
 }
 
 button {
-  background-color: #007bff;
+  background-color: #3d3d3d;
   color: white;
   border: none;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #3d3d3d;
 }
 
 .chart-container {
