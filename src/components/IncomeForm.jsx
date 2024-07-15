@@ -12,7 +12,7 @@ const IncomeForm = ({ addIncome }) => {
   return (
     <form onSubmit={handleSubmit}>
       <label>
-        Monatliches Netto:
+        Einkommen:
         <input
           type="number"
           value={income}

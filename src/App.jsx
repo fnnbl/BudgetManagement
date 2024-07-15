@@ -1,11 +1,28 @@
-import React, { useState } from "react";
+// src/App.jsx
+import React, { useState, useEffect } from "react";
 import IncomeForm from "./components/IncomeForm";
 import ExpenseForm from "./components/ExpenseForm";
 import ExpenseOverview from "./components/ExpenseOverview";
+import ExpensePieChart from "./components/ExpensePieChart";
 
 const App = () => {
-  const [income, setIncome] = useState(0);
-  const [expenses, setExpenses] = useState([]);
+  const [income, setIncome] = useState(() => {
+    const savedIncome = localStorage.getItem("income");
+    return savedIncome ? JSON.parse(savedIncome) : 0;
+  });
+
+  const [expenses, setExpenses] = useState(() => {
+    const savedExpenses = localStorage.getItem("expenses");
+    return savedExpenses ? JSON.parse(savedExpenses) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("income", JSON.stringify(income));
+  }, [income]);
+
+  useEffect(() => {
+    localStorage.setItem("expenses", JSON.stringify(expenses));
+  }, [expenses]);
 
   const addIncome = (amount) => {
     setIncome(amount);
@@ -44,6 +61,7 @@ const App = () => {
       <IncomeForm addIncome={addIncome} />
       <ExpenseForm addExpense={addExpense} />
       <ExpenseOverview expenses={expenses} monthlyExpenses={monthlyExpenses} />
+      <ExpensePieChart expenses={expenses} />
       <div>
         <h2>Monatlicher Überschuss: {monthlySurplus.toFixed(2)}€</h2>
       </div>
